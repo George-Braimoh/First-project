@@ -2,22 +2,25 @@ import './App.css'
 import { Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home.jsx';
 import Auth from './Pages/Auth.jsx';
-import Checkout from './Pages/checkout.jsx';
+import Checkout from "./Pages/Checkout.jsx";
 import Navbar from './components/Navbar.jsx';
+import AuthProvider from './context/AuthContext.jsx';
+
 
 
 function App() {
 
   return (
-      <div className="app">
-        <Navbar />  
-          <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/checkout" element={<Checkout />} />
-                
-          </Routes>
-      </div>
+      <AuthProvider>
+  <div className="app">
+    <Navbar />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/auth" element={<Auth />} />
+      <Route path="/checkout" element={<Checkout />} />
+    </Routes>
+  </div>
+</AuthProvider>
   ); 
 }
 
