@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Auth() {
@@ -9,7 +9,7 @@ export default function Auth() {
 
      const navigate = useNavigate();
 
-    const { signUp, login, logout, user, } = useContext(AuthContext);
+    const { signUp, login } = useAuth();
 
     const { register, handleSubmit, formState: { errors }, } = useForm();
 
@@ -19,7 +19,7 @@ export default function Auth() {
         if (mode === "signup") {
            result = signUp(data.email, data.password);
         } else {
-            login(data.email, data.password);
+            result = login(data.email, data.password);
         }
         if (result.success) {
            navigate("/");
@@ -28,16 +28,11 @@ export default function Auth() {
         }
 
 
-        console.log(result);
     }
     return (
     <div className="page">
        <div className="container">
             <div className="auth-container">
-                {user && <p>User logged in: {user.email}</p>}
-                <button onclick={() => logout()}>
-                     logout
-                     </button>
                 <h1 className="page-title">
                     {mode === "signup" ? "Sign Up" : "Login"}</h1>
                 <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
@@ -82,11 +77,13 @@ export default function Auth() {
                 </form>
                 <div className="auth-switch">
                    {mode === "signup" ? (
-                        <p>Already have an account? <span className="auth-link" onClick={() => setMode("login")}>
+                        <p>Already have an account? 
+                            <span className="auth-link" onClick={() => setMode("login")}>
                             Login
                         </span></p>
                     ) : (
-                        <p>Don't have an account? <span className="auth-link" onClick={() => setMode("signup")}>
+                        <p>Don't have an account? 
+                            <span className="auth-link" onClick={() => setMode("signup")}>
                             Sign Up
                         </span></p>
                     )}
